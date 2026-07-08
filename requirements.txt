@@ -1,24 +1,30 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 streamlit
-# Utilitites 
+
+# Utilities
 numpy
 pandas
 
-# FACE RECOGNITION
+# Face Recognition
 scikit-learn
 dlib
 git+https://github.com/ageitgey/face_recognition_models
 setuptools<70.0.0
 
+# AI
+torch==2.7.1
 
+# Database
 supabase
 bcrypt
 
-
-
+# QR
 segno
+
+# Image
 pillow
 
-
-
+# Voice
 librosa
 resemblyzer
