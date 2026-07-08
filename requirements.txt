@@ -10,10 +10,10 @@ pandas
 scikit-learn
 dlib
 git+https://github.com/ageitgey/face_recognition_models
-setuptools<70.0.0
+
 
 # AI
-torch==2.7.1
+torch==2.12.1+cpu
 
 # Database
 supabase
