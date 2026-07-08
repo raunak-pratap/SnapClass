@@ -24,7 +24,7 @@ def style_background_dashboard():
     st.markdown("""
             <style>
                     .stApp{
-                    background: #E0E3FF !important;
+                    background: #CBC3E3 !important;
 
                 }
                 </style>
@@ -34,7 +34,7 @@ def style_background_dashboard():
 
 
 def style_base_layout():
-    
+#asdasd   
     st.markdown("""
         <style>
                 @import url('https://fonts.googleapis.com/css2?family=Climate+Crisis&display=swap');
@@ -52,16 +52,18 @@ def style_base_layout():
 
                 h2 {
                         font-family: 'Climate Crisis', sans-serif !important;
-                        font-size: 3.5rem !important;
-                        line-height: 1.1 !important;
+                        font-size: 2.5rem !important;
+                        line-height: 0.9 !important;
                         margin-bottom: 0rem !important;
+                        text-align: center !important;
                 }
 
                 h2 {
                         font-family: 'Climate Crisis', sans-serif !important;
-                        font-size: 3.5rem !important;
+                        font-size: 2.5rem !important;
                         line-height: 0.9 !important;
                         margin-bottom: 0rem !important;
+                        text-align: center !important;
                 }
                 
                 h3, h4, p {
@@ -71,7 +73,7 @@ def style_base_layout():
 
                 button[kind="primary"]{
                         border-radius: 1.5rem !important;
-                        background: #5865F2 !important;
+                        background-color: #5865F2 !important;
                         color: white !important;
                         padding: 10px 20px !important;
                         border: none !important;
@@ -80,7 +82,7 @@ def style_base_layout():
                 
                 button[kind="secondary"]{
                         border-radius: 1.5rem !important;
-                        background: #EB459E !important;
+                        background-color: #EB459E !important;
                         color: white !important;
                         padding: 10px 20px !important;
                         border: none !important;
@@ -89,7 +91,7 @@ def style_base_layout():
 
                 button[kind="tertiary"]{
                         border-radius: 1.5rem !important;
-                        background: black !important;
+                        background-color: black !important;
                         color: white !important;
                         padding: 10px 20px !important;
                         border: none !important;
