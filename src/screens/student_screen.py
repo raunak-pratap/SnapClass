@@ -83,25 +83,26 @@ def student_screen():
                 all_students = get_all_students()
 
                 student = next(
-                    (s for s in all_students if s["student_id"] == student_id),
+                    (s for s in all_students if int(s["student_id"]) == int(student_id)),
                     None
                 )
 
-                if student is None:
-                    st.error("Student record not found in the database.")
-                    st.stop()
+                if student:
+                    st.session_state.is_logged_in = True
+                    st.session_state.user_role = "student"
+                    st.session_state.student_data = student
 
-                st.session_state.is_logged_in = True
-                st.session_state.user_role = "student"
-                st.session_state.student_data = student
+                    st.toast(f"Welcome Back, {student['name']}!")
+                    time.sleep(1)
+                    st.rerun()
 
-                st.toast(f"Welcome Back, {student['name']}!")
-                time.sleep(1)
-                st.rerun()
+                else:
+                    st.info("Face not registered. Please create your account.")
+                    show_registration = True
 
             else:
-                st.info("Face not recognized. Please ensure you are registered in the system.")
-                show_registration = True 
+                st.info("Face not recognized. Please create your account.")
+                show_registration = True
 
     if show_registration:
         st.space()
