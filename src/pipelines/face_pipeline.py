@@ -91,6 +91,7 @@ def predict_attendance(class_image_np):
     model_data = get_trained_model()
 
     if not model_data:
+        print("No model found")
         return detected_students, [], len(encodings)
 
     X_train = model_data["X"]
@@ -98,29 +99,31 @@ def predict_attendance(class_image_np):
 
     all_students = sorted(list(set(y_train)))
 
+    print("Students in model:", all_students)
+
     RECOGNITION_THRESHOLD = 0.45
 
     for encoding in encodings:
 
         best_distance = float("inf")
-        best_student_id = None
+        best_student = None
 
-        for train_embedding, student_id in zip(X_train, y_train):
+        for emb, sid in zip(X_train, y_train):
 
             distance = np.linalg.norm(
-                np.array(encoding) - np.array(train_embedding)
+                np.array(encoding) - np.array(emb)
             )
 
             if distance < best_distance:
                 best_distance = distance
-                best_student_id = student_id
+                best_student = sid
 
-        # Debug (remove after testing)
-        print(
-            f"Best Match -> Student: {best_student_id}, Distance: {best_distance:.4f}"
-        )
+        print("Best Student:", best_student)
+        print("Distance:", best_distance)
 
         if best_distance <= RECOGNITION_THRESHOLD:
-            detected_students[int(best_student_id)] = True
+            detected_students[int(best_student)] = True
+
+    print("Detected:", detected_students)
 
     return detected_students, all_students, len(encodings)
