@@ -14,8 +14,21 @@ from src.components.subject_card import subject_card
 
 
 def student_dashboard():
+    
+    # Check whether the user is still logged in
+    if "student_data" not in st.session_state:
+        st.session_state.is_logged_in = False
+        st.warning("Session expired. Please login again.")
+        st.rerun()
+
     student_data = st.session_state.student_data
-    student_id = student_data['student_id']
+
+    # Ensure student_data is valid
+    if not student_data:
+        st.error("Student information not found.")
+        st.stop()
+
+    student_id = student_data["student_id"]
     c1, c2 = st.columns(2, vertical_alignment='center', gap='xxlarge')
     with c1:
         header_dashboard()
@@ -130,15 +143,23 @@ def student_screen():
             if detected:
                 student_id = list(detected.keys())[0]
                 all_students = get_all_students()
-                student = next((s for s in all_students if s['student_id'] == student_id), None)
 
-                if student:
-                    st.session_state.is_logged_in = True
-                    st.session_state.user_role = 'student'
-                    st.session_state.student_data = student
-                    st.toast(f"Welcome Back, {student['name']}! ")
-                    time.sleep(1)
-                    st.rerun()
+                student = next(
+                    (s for s in all_students if s["student_id"] == student_id),
+                    None
+                )
+
+                if student is None:
+                    st.error("Student record not found in the database.")
+                    st.stop()
+
+                st.session_state.is_logged_in = True
+                st.session_state.user_role = "student"
+                st.session_state.student_data = student
+
+                st.toast(f"Welcome Back, {student['name']}!")
+                time.sleep(1)
+                st.rerun()
 
             else:
                 st.info("Face not recognized. Please ensure you are registered in the system.")

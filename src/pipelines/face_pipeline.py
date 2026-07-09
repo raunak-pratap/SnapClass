@@ -41,29 +41,41 @@ def get_face_embeddings(image_np):
 def get_trained_model():
     student_db = get_all_students()
 
-    X = []
-    y = []
-
     if not student_db:
         return None
 
+    X = []
+    y = []
+
     for student in student_db:
-        embedding = student.get('face_embedding')
-        if embedding:
-            X.append(np.array(embedding))
-            y.append(student.get('student_id'))
+        embedding = student.get("face_embedding")
+
+        if embedding is None:
+            continue
+
+        X.append(np.array(embedding, dtype=np.float64))
+        y.append(student["student_id"])
 
     if len(X) == 0:
         return None
-    
-    clf = SVC(kernel='linear', probability=True, class_weight='balanced')
+
+    clf = SVC(
+        kernel="linear",
+        probability=True,
+        class_weight="balanced"
+    )
 
     try:
         clf.fit(X, y)
-    except ValueError:
-        pass
+    except ValueError as e:
+        st.error(f"Model training failed: {e}")
+        return None
 
-    return {'classifier': clf, 'X': X, 'y': y}
+    return {
+        "classifier": clf,
+        "X": X,
+        "y": y
+    }
     
 
 def train_classifier():
