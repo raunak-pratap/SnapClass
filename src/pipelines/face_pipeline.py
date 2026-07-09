@@ -65,14 +65,14 @@ def get_trained_model():
         class_weight="balanced"
     )
 
-    try:
-        clf.fit(X, y)
-    except ValueError as e:
-        st.error(f"Model training failed: {e}")
-        return None
+    # try:
+    #     clf.fit(X, y)
+    # except ValueError as e:
+    #     st.error(f"Model training failed: {e}")
+    #     return None
 
     return {
-        "classifier": clf,
+        # "classifier": clf,
         "X": X,
         "y": y
     }
@@ -92,27 +92,35 @@ def predict_attendance(class_image_np):
 
     if not model_data:
         return detected_students, [], len(encodings)
-    
-    clf = model_data['classifier']
-    X_train = model_data['X']
-    y_train = model_data['y']
+
+    X_train = model_data["X"]
+    y_train = model_data["y"]
 
     all_students = sorted(list(set(y_train)))
 
+    RECOGNITION_THRESHOLD = 0.45
 
     for encoding in encodings:
-        if len(all_students) >= 2:
-            predicted_id = int(clf.predict([encoding])[0])
-        else:
-            predicted_id = int(all_students[0])
 
-        student_embedding = X_train[y_train.index(predicted_id)]
+        best_distance = float("inf")
+        best_student_id = None
 
-        best_match_score = np.linalg.norm(encoding - student_embedding)
+        for train_embedding, student_id in zip(X_train, y_train):
 
-        resemblance_threshold = 0.6
+            distance = np.linalg.norm(
+                np.array(encoding) - np.array(train_embedding)
+            )
 
-        if best_match_score <= resemblance_threshold:
-            detected_students[predicted_id] = True
+            if distance < best_distance:
+                best_distance = distance
+                best_student_id = student_id
+
+        # Debug (remove after testing)
+        print(
+            f"Best Match -> Student: {best_student_id}, Distance: {best_distance:.4f}"
+        )
+
+        if best_distance <= RECOGNITION_THRESHOLD:
+            detected_students[int(best_student_id)] = True
 
     return detected_students, all_students, len(encodings)
