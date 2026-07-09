@@ -40,10 +40,15 @@ def get_all_students():
     return response.data
 
 def create_student(new_name, face_embedding=None, voice_embedding=None):
-    data = {'name': new_name, 'face_embedding': face_embedding, 'voice_embedding': voice_embedding}
-    response = supabase.table("students").insert(data).execute()
-    return response.data
+    data = {
+        "name": new_name,
+        "face_embedding": face_embedding,
+        "voice_embedding": voice_embedding
+    }
 
+    response = supabase.table("students").insert(data).execute()
+
+    return response.data[0] if response.data else None
 
 def create_subject(subject_code, name, section, teacher_id):
     data = {"subject_code": subject_code, "name": name, "section": section, "teacher_id": teacher_id }
