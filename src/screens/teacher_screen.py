@@ -312,7 +312,7 @@ def teacher_screen_login():
     st.space()
 
 
-    teacher_username = st.text_input("Enter username", placeholder='ananyaroy')
+    teacher_username = st.text_input("Enter username", placeholder='raunakpratap')
 
     teacher_pass = st.text_input("Enter password", type='password', placeholder="Enter password")
 
@@ -323,7 +323,7 @@ def teacher_screen_login():
     with btnc1:
         if st.button('Login', icon=':material/passkey:', shortcut='control+enter', width='stretch'):
             if login_teacher(teacher_username, teacher_pass):
-                st.toast("welcome back!", icon="👋")
+                st.toast("Welcome back!", icon="👋")
                 import time
                 time.sleep(1)
                 st.rerun()
